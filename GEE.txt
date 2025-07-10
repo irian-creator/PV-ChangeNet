@@ -1,0 +1,51 @@
+var geometry = ee.FeatureCollection('projects/ee-xx/assets/lanxi');
+
+var dsize = geometry.size();
+print(dsize);
+
+var year = 2022;
+var start = ee.Date(year + '-01-01');
+var finish = ee.Date(year + '-12-31');
+var bandlist = ['B4', 'B3', 'B2'];  // 只选择真彩色波段
+
+var dataset = ee.ImageCollection('COPERNICUS/S2_SR_HARMONIZED')
+                  .filterDate(start, finish)
+                  .filterBounds(geometry)
+                  .filter(ee.Filter.lt('CLOUDY_PIXEL_PERCENTAGE', 10))
+                  .map(maskS2clouds)
+                  .select(bandlist);  // 确保只选择RGB波段
+
+function maskS2clouds(image) {
+  var qa = image.select('QA60');
+  // Bits 10 and 11 are clouds and cirrus, respectively.
+  var cloudBitMask = 1 << 10;
+  var cirrusBitMask = 1 << 11;
+  // Both flags should be set to zero, indicating clear conditions.
+  var mask = qa.bitwiseAnd(cloudBitMask).eq(0)
+      .and(qa.bitwiseAnd(cirrusBitMask).eq(0));
+  return image.updateMask(mask).clip(geometry);
+}                  
+
+// var image = dataset.mean();
+var image = dataset.median();  // 取中值影像，减少噪声
+
+var rgbVis = {
+  min: 0.0,
+  max: 3000,
+  bands: ['B4', 'B3', 'B2'],  // 真彩色波段
+};
+
+Map.centerObject(geometry);
+Map.addLayer(image, rgbVis, 'RGB');    
+print(image)
+// 修改导出代码，确保只导出RGB波段
+Export.image.toDrive({
+    image: image.select(bandlist),  // 只导出选择的RGB波段
+    description: "lanxi_Sentinel2",
+    folder: 'lanxi2022',
+    fileDimensions:2560,
+    crs: "EPSG:4326",
+    region: geometry.geometry().bounds(),
+    scale: 10,
+    maxPixels: 1e13
+});
