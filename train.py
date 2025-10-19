@@ -31,8 +31,8 @@ if __name__ == '__main__':
     # ------------
     parser = ArgumentParser()
     parser.add_argument('--gpu_ids', type=str, default='0', help='gpu ids: e.g. 0  0,1,2, 0,2. use -1 for CPU')
-    parser.add_argument('--project_name', default='BDAM', type=str)
-    parser.add_argument('--checkpoint_root', default='./checkpoints_ablation/', type=str)
+    parser.add_argument('--project_name', default='PV-ChangeNet', type=str)
+    parser.add_argument('--checkpoint_root', default='./checkpoints/', type=str)
     parser.add_argument('--vis_root', default='./vis_pv', type=str)
 
     # data
@@ -55,7 +55,7 @@ if __name__ == '__main__':
     parser.add_argument('--multi_scale_infer', default=False, type=str)
     parser.add_argument('--multi_pred_weights', nargs = '+', type = float, default = [0.5, 0.5, 0.5, 0.8, 1.0])
 
-    parser.add_argument('--net_G', default='sc_edge', type=str,
+    parser.add_argument('--net_G', default='PV-ChangeNet', type=str,
                         help='base_resnet18 | base_transformer_pos_s4 | '
                              'base_transformer_pos_s4_dd8 | '
                              'base_transformer_pos_s4_dd8_dedim8|ChangeFormerV5|SiamUnet_diff')
