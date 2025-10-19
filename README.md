@@ -14,7 +14,8 @@ The dataset is avaliable at: https://pan.baidu.com/s/1FsIfdmo4UZN500vVdGXGYw?pwd
 # Working Example
 Training the Model.
 (1) Prepare the Dataset. Make sure your dataset is structured as described above and adjust the dataset_path variable in the training script to point to your training data folder. (2) Training Script. To train the PV-ChangeNet model, run the following command:
-"""pthon train.py"""
+'''pthon train.py'''
+
 Testing the Model.
 (1) Prepare the Dataset. Make sure your dataset is structured as described above and adjust the dataset_path variable in the testing script to point to your testing data folder. (2) Testing Script. To test the trained model on the test dataset, run the following command:
 """pthon test.py"""
