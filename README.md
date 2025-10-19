@@ -2,9 +2,9 @@
 The offical implementation of detecting Photovoltaic expansion in farmland: A progressive difference amplification change detection network and a change detection dataset
 
 # Requirement
-ubuntu 18.04
-python 3.8
-pytorch 1.10
+ubuntu 18.04 <br>
+python 3.8<br>
+pytorch 1.10<br>
 
 # Dataset
 The dataset should consist of pairs of images(before and after) in TIFF format, with each pair containing: A.tif and B.tif for the before and after images, respectively. label.tif for the ground truth(binary mask indicating change or no-change).
